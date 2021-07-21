@@ -1,0 +1,2 @@
+com/fullstack/server/restservice/RestServiceApplicationTests.java
+ com.fullstack.server.restservice.RestServiceApplicationTests
