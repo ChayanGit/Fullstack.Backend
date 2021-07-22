@@ -1,6 +1,6 @@
 com/fullstack/server/restservice/RestServiceApplication.java
  com.fullstack.server.restservice.RestServiceApplication
-com/fullstack/server/restservice/GreetingController.java
- com.fullstack.server.restservice.GreetingController
 com/fullstack/server/restservice/Greeting.java
  com.fullstack.server.restservice.Greeting
+com/fullstack/server/restservice/GreetingController.java
+ com.fullstack.server.restservice.GreetingController
