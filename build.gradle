@@ -15,21 +15,6 @@ repositories {
 	mavenCentral()
 }
 
-String dockerHubUsernameProperty = findProperty('docker-hub') ?: 'Backend-Code'
-String imageName = "${dockerHubUsernameProperty}/spring-boot-api-example:$version"
-
-docker {
-    name imageName
-    files "build/libs/${bootJar.archiveFileName.get()}"
-    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
-}
-
-dockerRun {
-    name project.name
-    image imageName
-    ports '3000:8080'
-    clean true
-}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -38,4 +23,27 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+Process process
+if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) {
+    process = "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock alpine stat -c %g /var/run/docker.sock".execute()
+} else if (DefaultNativePlatform.getCurrentOperatingSystem().isLinux()) {
+    process = "stat -c %g /var/run/docker.sock".execute()
+} else {
+    throw new GradleException("Unsupported operating system. No way to find group of /var/run/docker.sock.")
+}
+
+def out = new ByteArrayOutputStream()
+process.waitForProcessOutput(out, System.err)
+String dockerSockGroupId = out.toString().trim()
+
+String extraPrefix = DefaultNativePlatform.getCurrentOperatingSystem().isWindows() ? '/' : ''
+dockerRun {
+    name "${project.name}"
+    image "${project.name}:${project.version}"
+    ports '3000:8080'
+    clean true
+    daemonize false
+    arguments '-v', "$extraPrefix/var/run/docker.sock:/var/run/docker.sock", '--group-add', dockerSockGroupId
 }
