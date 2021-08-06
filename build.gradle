@@ -1,7 +1,10 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 plugins {
 	id 'org.springframework.boot' version '2.4.8'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'com.palantir.docker' version '0.26.0'
+    id 'com.palantir.docker-run' version '0.26.0'
 }
 
 group = 'com.fullstack.server'
@@ -10,6 +13,22 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+}
+
+String dockerHubUsernameProperty = findProperty('docker-hub') ?: 'Backend-Code'
+String imageName = "${dockerHubUsernameProperty}/spring-boot-api-example:$version"
+
+docker {
+    name imageName
+    files "build/libs/${bootJar.archiveFileName.get()}"
+    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
+}
+
+dockerRun {
+    name project.name
+    image imageName
+    ports '3000:8080'
+    clean true
 }
 
 dependencies {
