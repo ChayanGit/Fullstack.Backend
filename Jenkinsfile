@@ -10,10 +10,10 @@ pipeline {
 
         stage('install docker client'){
             steps{ //https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
-                sh'docker_url=https://download.docker.com/linux/static/stable/x86_64
-docker_version=18.03.1-ce
-curl -fsSL $docker_url/docker-$docker_version.tgz | \
-tar zxvf - --strip 1 -C /usr/bin docker/docker'
+                sh'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz \
+  && tar xzvf docker-17.03.0-ce.tgz --strip 1 \
+                 -C /usr/local/bin docker/docker \
+  && rm docker-17.03.0-ce.tgz'
             }
         }
         
