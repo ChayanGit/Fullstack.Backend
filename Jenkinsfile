@@ -6,17 +6,7 @@ pipeline {
         pollSCM '* * * * *'
     }
     
-    stages {
-
-        stage('install docker client'){
-            steps{ //https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
-                sh'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz \
-  && tar xzvf docker-17.03.0-ce.tgz --strip 1 \
-                 -C /usr/local/bin docker/docker \
-  && rm docker-17.03.0-ce.tgz'
-            }
-        }
-        
+    stages {        
         stage('Build') {
             steps {
                 sh './gradlew build'
@@ -24,18 +14,18 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t testimage .'
+                sh 'docker build -t backendimage .'
             }
         }
-        stage('Push Docker image') {
-            environment {
-                DOCKER_HUB_LOGIN = credentials('docker-hub')
-            }
-            steps {
-                sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                sh './gradlew dockerPush'
-            }
-        }
+        // stage('Push Docker image') {
+        //     environment {
+        //         DOCKER_HUB_LOGIN = credentials('docker-hub')
+        //     }
+        //     steps {
+        //         sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
+        //         sh './gradlew dockerPush'
+        //     }
+        // }
         // stage('Test') {
         //     steps {
         //         sh './gradlew test'
