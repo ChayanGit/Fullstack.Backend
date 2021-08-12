@@ -11,10 +11,11 @@ pipeline {
             steps {
                 sh './gradlew build'
             }
-        }
+        } 
+
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t backendimage .'
+                sh 'docker build -t choudhurychayan1/fullstack-backend .'
             }
         }
         stage('Push Docker image') {
