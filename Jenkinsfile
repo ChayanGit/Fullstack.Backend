@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                sh './gradlew dockerPush'
+                sh 'docker push choudhurychayan1/fullstack-image:backendimage'
             }
         }
         // stage('Test') {
