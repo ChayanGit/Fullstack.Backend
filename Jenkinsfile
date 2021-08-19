@@ -21,7 +21,7 @@ pipeline {
                build_url = gcr.io/${google_projectname}/${image_name}:${image_tag}
             }
             steps {
-                sh "docker build -t ${build_url} ."
+                sh 'docker build -t gcr.io/fullstack-320607/backend .'
             }
         }
         stage('Push to GCR ') {
