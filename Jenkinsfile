@@ -26,8 +26,8 @@ pipeline {
         stage('Push to GCR ') {
             steps { 
                 withCredentials([file(credentialsId: 'google-container-registry', variable: 'GC_KEY')]){
-                //sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
-                sh "docker login -u _json_key -p cat $GC_KEY https://gcr.io"
+                sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
+                //sh 'docker login -u _json_key -p "$(cat "$GC_KEY")" https://gcr.io'
                 sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
                 sh "gcloud auth configure-docker"
                 // GLOUD_AUTH = sh (
