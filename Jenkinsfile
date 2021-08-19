@@ -24,7 +24,7 @@ pipeline {
             }
         }
         stage('Push to GCR ') {
-            steps {  "docker login -u _json_key -p "$(cat keyfile.json)" https://HOSTNAME"
+            steps {  
                 withCredentials([file(credentialsId: 'google-container-registry', variable: 'GC_KEY')]){
                     echo "GC_KEY"
                 //sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
