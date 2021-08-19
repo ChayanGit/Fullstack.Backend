@@ -27,12 +27,12 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'google-container-registry', variable: 'GC_KEY')]){
                 sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
-                 sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
+                sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
                 sh "gcloud auth configure-docker"
-                GLOUD_AUTH = sh (
-                    script: 'gcloud auth print-access-token',
-                    returnStdout: true
-                ).trim()
+                // GLOUD_AUTH = sh (
+                //     script: 'gcloud auth print-access-token',
+                //     returnStdout: true
+                // ).trim()
                 echo "Pushing image To GCR"
                 sh "docker push gcr.io/${google_projectname}/${image_name}:${image_tag}"
             }
