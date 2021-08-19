@@ -47,7 +47,7 @@ pipeline {
                 // sh "docker push gcr.io/${google_projectname}/${image_name}:${image_tag}"
             }
              
-          }
+          
         }
         // stage('Push Docker image') {
         //     environment {
