@@ -29,10 +29,10 @@ pipeline {
                     //echo "$GC_KEY"
                 //sh "echo $GC_KEY | docker login -u _json_key --password-stdin https://gcr.io"
                 //sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
-                sh "docker login -u _json_key -p '${(cat '$GC_KEY')}' https://gcr.io"
+                sh "docker login -u _json_key -p "${(cat "$GC_KEY")}" https://gcr.io"
                 sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
                 sh "gcloud auth configure-docker"
-                echo "Pushing image To GCR"
+                echo"Pushing image To GCR"
                 sh "docker push gcr.io/${google_projectname}/${image_name}:${image_tag}"
             }
              
