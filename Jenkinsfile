@@ -17,7 +17,7 @@ pipeline {
             environment {
                google_projectname = "fullstack-320607"
                image_name = "backend"
-               image-tag = "latest"
+               image_tag = "latest"
             }
             steps {
                 sh 'docker build -t gcr.io/fullstack320607/backend .'
@@ -33,7 +33,7 @@ pipeline {
                     returnStdout: true
                 ).trim()
               echo "Pushing image To GCR"
-              sh "docker push gcr.io/${google_projectname}/${image_name}:${image-tag}"
+              sh "docker push gcr.io/${google_projectname}/${image_name}:${image_tag}"
           }
         }
         // stage('Push Docker image') {
