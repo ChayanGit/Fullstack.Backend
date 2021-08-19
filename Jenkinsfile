@@ -16,12 +16,11 @@ pipeline {
         stage('Build Docker image'){
             environment {
                google_projectname = "fullstack-320607"
-               image_name = "backend"
+               image_name = "backend-app"
                image_tag = "latest"
-               build_url = gcr.io/${google_projectname}/${image_name}:${image_tag}
             }
             steps {
-                sh 'docker build -t gcr.io/fullstack-320607/backend .'
+                sh "docker build -t gcr.io/${google_projectname}/${image_name}:${image_tag} ."
             }
         }
         stage('Push to GCR ') {
