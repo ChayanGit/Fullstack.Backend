@@ -24,6 +24,11 @@ pipeline {
             }
         }
         stage('Push to GCR ') {
+            environment {
+               google_projectname = "fullstack-320607"
+               image_name = "backend-app"
+               image_tag = "latest"
+            }
             steps {  
                 withCredentials([file(credentialsId: 'google-container-registry', variable: 'GC_KEY')]){
                 sh '''docker login -u _json_key -p "$(cat $GC_KEY)" https://gcr.io'''
